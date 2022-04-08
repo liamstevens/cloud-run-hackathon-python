@@ -41,7 +41,7 @@ class Player:
         return
 
     def update_state(self, arena_in):
-        
+        self.danger = 0
         arena = zeros((arena_in["dims"][0]+3,arena_in["dims"][1]+3),dtype=int)
         for e in arena_in["state"]:
             if e != self.url:
