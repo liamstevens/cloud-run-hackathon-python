@@ -106,7 +106,7 @@ class Player:
                         self.command = "R"
                     else:
                         self.command ="L"
-                elif self.y_pos > 2+math.floor(self.arena.shape[1]/2):
+                elif self.y_pos < 2+math.floor(self.arena.shape[1]/2):
                     logger.info("go south" +str(math.floor(self.arena.shape[1]/2)))
                     if self.bearing == "S":
                         self.command = "F"
