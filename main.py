@@ -55,13 +55,16 @@ class Player:
                     
                     arena[:,arena_in["state"][e]["y"]:(arena_in["state"][e]["y"]+3)] = -1
                 elif arena_in["state"][e]["direction"] == "S":
-                    arena = concatenate(arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]],[-1],arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]-3])
+                    arena[:,arena_in["state"][e]["y"]:(arena_in["state"][e]["y"]-3)] = -1
+                
 
                 elif arena_in["state"][e]["direction"] == "E":
-                    arena = concatenate(arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]],[-1],arena[e["x"]+3,e["y"]])
+                    arena[arena_in["state"][e]["x"]:(arena_in["state"][e]["x"]+3),:] = -1
+                   
 
                 elif arena_in["state"][e]["direction"] == "W":
-                    arena = concatenate(arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]],[-1],arena[e["x"]-3,e["y"]])
+                    arena[arena_in["state"][e]["x"]:(arena_in["state"][e]["x"]-3),:] = -1
+                    
             else:
                 self.x_pos = arena_in["state"][e]["x"]
                 self.y_pos = arena_in["state"][e]["y"]
