@@ -90,20 +90,20 @@ class Player:
                 self.y_pos += compassmap[self.bearing][1]
             else:
                 #not safe, turn to move toward centre of arena
-                if self.x_pos > 2+(self.arena.ndim[0]/2):
+                if self.x_pos > 2+(self.arena.shape[0]/2):
                     #send turn message
                     #self.bearing = "W"
                     if self.bearing == "S":
                         self.command = "R"
                     else:
                         self.command = "L"
-                elif self.x_pos < 2+(self.arena.ndim[0]/2):
+                elif self.x_pos < 2+(self.arena.shape[0]/2):
                     #self.bearing = "E"
                     if self.bearing == "N":
                         self.command = "R"
                     else:
                         self.command ="L"
-                elif self.y_pos > 2+(self.arena.ndim[1]/2):
+                elif self.y_pos > 2+(self.arena.shape[1]/2):
                     #self.bearing = "S"
                     if self.bearing == "E":
                         self.command = "R"
