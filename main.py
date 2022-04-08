@@ -127,9 +127,12 @@ class Player:
                     if self.last_command != "T":
                         self.command = "T"
                     else:
-                        self.command = "F"
+                        self.command = "R"
                 #yolo, shoot your shot
-                    
+        elif (self.x_pos == 0 or self.x_pos == self.arena.shape[0]-1):
+            self.command = "R"
+        elif (self.y_pos == 0 or self.y_pos == self.arena.shape[1]-1):
+            self.command = "R"
         else:
             if self.last_command != "T":
                 self.command = "T"
