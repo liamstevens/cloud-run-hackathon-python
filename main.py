@@ -87,6 +87,7 @@ class Player:
             else:
                 #not safe, turn to move toward centre of arena
                 if self.x_pos > 2+(self.arena.shape[0]/2):
+                    logger.info("go west" +self.arena.shape[0]/2)
                     #send turn message
                     #self.bearing = "W"
                     if self.bearing == "W":
@@ -96,6 +97,7 @@ class Player:
                     else:
                         self.command = "L"
                 elif self.x_pos < 2+(self.arena.shape[0]/2):
+                    logger.info("go east" +self.arena.shape[0]/2)
                     if self.bearing == "E":
                         self.command = "F"
                     elif self.bearing == "N":
@@ -103,6 +105,7 @@ class Player:
                     else:
                         self.command ="L"
                 elif self.y_pos > 2+(self.arena.shape[1]/2):
+                    logger.info("go south" +self.arena.shape[1]/2)
                     if self.bearing == "S":
                         self.command = "F"
                     elif self.bearing == "E":
@@ -110,6 +113,7 @@ class Player:
                     else:
                         self.command = "L"
                 else:
+                    logger.info("go north" +self.arena.shape[1]/2)
                     if self.bearing == "N":
                         self.command = "F"
                     elif self.bearing == "W":
