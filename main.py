@@ -15,11 +15,12 @@
 
 import os
 import logging
+import ast
 import json
 import random
 #from "./player.py" import Player
 from flask import Flask, request
-from numpy import ndarray as matrix
+from numpy import ndarray, zeros
 from numpy import concatenate
 compassmap = {
 "N":(0,1),
@@ -33,39 +34,53 @@ class Player:
     def __init__(self,url):
         self.url = url
         self.danger = 0
+        self.x_pos = None
+        self.y_pos = None
+        self.command = None
         return
 
-    def update_state(self, arena):
-        arena = matrix(arena["dims"][0],arena["dims"][1],dtype=int).fill(0)
-        for e in self.arena_state:
+    def update_state(self, arena_in):
+        
+        arena = zeros((arena_in["dims"][0]+3,arena_in["dims"][1]+3),dtype=int)
+        #logger.info(arena_in["dims"][0])
+        for e in arena_in["state"]:
+            logger.info(e)
             if e != self.url:
             #Assign weights to the arena array to determine danger zones
-               arena[e["x"],e["y"]] = 1
-               if e["direction"] == "N":
-                   arena = numpy.concatenate(arena[e["x"],e["y"]],[-1],arena[e["x"],e["y"]+3])
-               elif e["direction"] == "S":
-                   arena = numpy.concatenate(arena[e["x"],e["y"]],[-1],arena[e["x"],e["y"]-3])
+                print(arena_in["state"][e])
+                arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]] = 1
+                
+                if arena_in["state"][e]["direction"] == "N":
+                    #arena = concatenate(arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]],arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]+3])
+                    
+                    arena[:,arena_in["state"][e]["y"]:(arena_in["state"][e]["y"]+3)] = -1
+                elif arena_in["state"][e]["direction"] == "S":
+                    arena = concatenate(arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]],[-1],arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]-3])
 
-               elif e["direction"] == "E":
-                   arena = numpy.concatenate(arena[e["x"],e["y"]],[-1],arena[e["x"]+3,e["y"]])
+                elif arena_in["state"][e]["direction"] == "E":
+                    arena = concatenate(arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]],[-1],arena[e["x"]+3,e["y"]])
 
-               elif e["direction"] == "W":
-                   arena = numpy.concatenate(arena[e["x"],e["y"]],[-1],arena[e["x"]-3,e["y"]])
+                elif arena_in["state"][e]["direction"] == "W":
+                    arena = concatenate(arena[arena_in["state"][e]["x"],arena_in["state"][e]["y"]],[-1],arena[e["x"]-3,e["y"]])
             else:
-                self.x_pos = e["x"]
-                self.y_pos = e["y"]
-                self.bearing = e["direction"]
+                self.x_pos = arena_in["state"][e]["x"]
+                self.y_pos = arena_in["state"][e]["y"]
+                self.bearing = arena_in["state"][e]["direction"]
         self.arena = arena
+
     def analyse_state(self):
         #first, check to see if current position is safe
-        if self.arena[self.x_pos,self.y_pos] < 0:
+        #print(self.arena)
+        #print(self.x_pos, self.y_pos)
+        #print(self.arena[self.x_pos][self.y_pos])
+        if self.arena[self.x_pos][self.y_pos] < 0:
             self.danger += 1
-        if 1 in self.arena[self.x_pos:self.x_pos+(compassmap[self.bearing][0]*3), self.y_pos:self.y_pos+(compassmap[self.bearing][1]*3)] >= 0:
+        if 1 in self.arena[self.x_pos:self.x_pos+(compassmap[self.bearing][0]*3)] [self.y_pos:self.y_pos+(compassmap[self.bearing][1]*3)] >= 0:
             #there is an enemy within range! fire!...if you're not encircled.
             self.danger -= 1
         if self.danger > 0:
             #need to move! check if we can just move forward to be safe
-            if self.arena[self.x_pos+compassmap[self.bearing][0], self.y_pos+compassmap[self.bearing][1]] >= 0:
+            if self.arena[self.x_pos+compassmap[self.bearing][0]] [self.y_pos+compassmap[self.bearing][1]] >= 0:
                 #safe to move forward
                 self.command = "F"
                 self.x_pos += compassmap[self.bearing][0]
@@ -103,6 +118,8 @@ class Player:
             #yolo, shoot your shot
             
         return
+    def get_command(self):
+        return self.command
 
 
 
@@ -122,11 +139,18 @@ def index():
 
 @app.route("/", methods=['POST'])
 def move():
-    d = json.loads(request.get_data().decode('utf-8'))
+    b = request.get_data()
+    d = json.loads(b.decode('UTF-8'))
+    logger.info(d)
+    #dic = ast.literal_eval(d)
+    
+    #print(b)
+    #d = request.get_json()#ast.literal_eval(request.json)#b.decode('utf-8'))#json.loads(b)
     player.update_state(d["arena"])
     player.analyse_state()
-    logger.info(request.json)
-    return player.command
+    #logger.info(request.json)
+    #logger.info(player.get_command())
+    return player.get_command()
 
 if __name__ == "__main__":
    
