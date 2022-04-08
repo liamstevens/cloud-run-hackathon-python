@@ -42,9 +42,7 @@ class Player:
     def update_state(self, arena_in):
         
         arena = zeros((arena_in["dims"][0]+3,arena_in["dims"][1]+3),dtype=int)
-        #logger.info(arena_in["dims"][0])
         for e in arena_in["state"]:
-            logger.info(e)
             if e != self.url:
             #Assign weights to the arena array to determine danger zones
                 print(arena_in["state"][e])
@@ -144,14 +142,8 @@ def index():
 def move():
     b = request.get_data()
     d = json.loads(b.decode('UTF-8'))
-    logger.info(d)
-    #dic = ast.literal_eval(d)
-    
-    #print(b)
-    #d = request.get_json()#ast.literal_eval(request.json)#b.decode('utf-8'))#json.loads(b)
     player.update_state(d["arena"])
     player.analyse_state()
-    #logger.info(request.json)
     logger.info(player.get_command())
     return player.get_command()
 
