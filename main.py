@@ -136,6 +136,8 @@ class Player:
         else:
             if self.last_command != "T":
                 self.command = "T"
+            elif self.last_command == "F":
+                self.command = "R"
             else:
                 self.command = "F"
             #yolo, shoot your shot
