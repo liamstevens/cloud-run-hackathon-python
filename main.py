@@ -38,6 +38,7 @@ class Player:
         self.x_pos = None
         self.y_pos = None
         self.command = None
+        self.last_command = None
         return
 
     def update_state(self, arena_in):
