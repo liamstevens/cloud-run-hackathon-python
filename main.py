@@ -78,7 +78,7 @@ class Player:
         if 1 in self.arena[self.x_pos:self.x_pos+(compassmap[self.bearing][0]*3)] [self.y_pos:self.y_pos+(compassmap[self.bearing][1]*3)] >= 0:
             #there is an enemy within range! fire!...if you're not encircled.
             self.danger -= 1
-        if self.danger > 0:
+        if self.danger >= 1:
             #need to move! check if we can just move forward to be safe
             if self.arena[self.x_pos+compassmap[self.bearing][0]] [self.y_pos+compassmap[self.bearing][1]] >= 0:
                 #safe to move forward
@@ -89,7 +89,7 @@ class Player:
                 logger.warn("Danger level:"+str(self.danger))
                 #not safe, turn to move toward centre of arena
                 if self.x_pos > 2+math.floor(self.arena.shape[0]/2):
-                    logger.info("go west" +str(math.floor(self.arena.shape[0]/2)))
+                    logger.info("go west: "+str(self.x_pos)+", "+str(self.y_pos))
                     #send turn message
                     #self.bearing = "W"
                     if self.bearing == "W":
@@ -99,7 +99,7 @@ class Player:
                     else:
                         self.command = "L"
                 elif self.x_pos < 2+math.floor(self.arena.shape[0]/2):
-                    logger.info("go east" +str(math.floor(self.arena.shape[0]/2)))
+                    logger.info("go east" +str(self.x_pos)+", "+str(self.y_pos))
                     if self.bearing == "E":
                         self.command = "F"
                     elif self.bearing == "N":
@@ -107,7 +107,7 @@ class Player:
                     else:
                         self.command ="L"
                 elif self.y_pos < 2+math.floor(self.arena.shape[1]/2):
-                    logger.info("go south" +str(math.floor(self.arena.shape[1]/2)))
+                    logger.info("go south" +str(self.x_pos)+", "+str(self.y_pos))
                     if self.bearing == "S":
                         self.command = "F"
                     elif self.bearing == "E":
@@ -115,7 +115,7 @@ class Player:
                     else:
                         self.command = "L"
                 else:
-                    logger.info("go north" +str(math.floor(self.arena.shape[1]/2)))
+                    logger.info("go north" +str(self.x_pos)+", "+str(self.y_pos))
                     if self.bearing == "N":
                         self.command = "F"
                     elif self.bearing == "W":
