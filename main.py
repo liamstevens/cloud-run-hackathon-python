@@ -16,11 +16,12 @@
 import os
 import logging
 import random
-#import player
+from player import Player
 from flask import Flask, request
 
 logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 logger = logging.getLogger(__name__)
+player = Player("https://cloud-run-hackathon-python-scbpckg2va-uc.a.run.app")
 
 app = Flask(__name__)
 moves = ['F', 'T', 'L', 'R']
@@ -31,10 +32,13 @@ def index():
 
 @app.route("/", methods=['POST'])
 def move():
-    request.get_data()
+    d = request.get_data()
+    player.update_state(d["arena"])
+    player.analyse_state()
     logger.info(request.json)
-    return moves[random.randrange(len(moves))]
+    return player.command
 
 if __name__ == "__main__":
-  app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
+   
+    app.run(debug=False,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
   

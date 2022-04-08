@@ -46,7 +46,7 @@ class Player:
             #need to move! check if we can just move forward to be safe
             if self.arena[self.x_pos+compassmap[self.bearing][0], self.y_pos+compassmap[self.bearing][1]] >= 0:
                 #safe to move forward
-                self.command = "MOVE"
+                self.command = "F"
                 self.x_pos += compassmap[self.bearing][0]
                 self.y_pos += compassmap[self.bearing][1]
             else:
@@ -78,7 +78,7 @@ class Player:
                         self.command = "L"
                     
         else:
-            self.command = "FIRE"
+            self.command = "T"
             #yolo, shoot your shot
             
         return
