@@ -71,9 +71,7 @@ class Player:
 
     def analyse_state(self):
         #first, check to see if current position is safe
-        #print(self.arena)
-        #print(self.x_pos, self.y_pos)
-        #print(self.arena[self.x_pos][self.y_pos])
+
         if self.arena[self.x_pos][self.y_pos] < 0:
             self.danger += 1
         if 1 in self.arena[self.x_pos:self.x_pos+(compassmap[self.bearing][0]*3)] [self.y_pos:self.y_pos+(compassmap[self.bearing][1]*3)] >= 0:
@@ -91,25 +89,30 @@ class Player:
                 if self.x_pos > 2+(self.arena.shape[0]/2):
                     #send turn message
                     #self.bearing = "W"
-                    if self.bearing == "S":
+                    if self.bearing == "W":
+                        self.command = "F"
+                    elif self.bearing == "S":
                         self.command = "R"
                     else:
                         self.command = "L"
                 elif self.x_pos < 2+(self.arena.shape[0]/2):
-                    #self.bearing = "E"
-                    if self.bearing == "N":
+                    if self.bearing == "E":
+                        self.command = "F"
+                    elif self.bearing == "N":
                         self.command = "R"
                     else:
                         self.command ="L"
                 elif self.y_pos > 2+(self.arena.shape[1]/2):
-                    #self.bearing = "S"
-                    if self.bearing == "E":
+                    if self.bearing == "S":
+                        self.command = "F"
+                    elif self.bearing == "E":
                         self.command = "R"
                     else:
                         self.command = "L"
                 else:
-                    #self.bearing = "N"
-                    if self.bearing == "W":
+                    if self.bearing == "N":
+                        self.command = "F"
+                    elif self.bearing == "W":
                         self.command = "R"
                     else:
                         self.command = "L"
@@ -118,7 +121,7 @@ class Player:
             self.command = "T"
             #yolo, shoot your shot
             
-        return
+        return self.command
     def get_command(self):
         return self.command
 
