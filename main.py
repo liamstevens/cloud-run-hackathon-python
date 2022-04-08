@@ -15,6 +15,7 @@
 
 import os
 import logging
+import math
 import ast
 import json
 import random
@@ -87,8 +88,8 @@ class Player:
             else:
                 logger.warn("Danger level:"+self.danger)
                 #not safe, turn to move toward centre of arena
-                if self.x_pos > 2+(self.arena.shape[0]/2):
-                    logger.info("go west" +self.arena.shape[0]/2)
+                if self.x_pos > 2+math.floor(self.arena.shape[0]/2):
+                    logger.info("go west" +math.floor(self.arena.shape[0]/2))
                     #send turn message
                     #self.bearing = "W"
                     if self.bearing == "W":
@@ -97,16 +98,16 @@ class Player:
                         self.command = "R"
                     else:
                         self.command = "L"
-                elif self.x_pos < 2+(self.arena.shape[0]/2):
-                    logger.info("go east" +self.arena.shape[0]/2)
+                elif self.x_pos < 2+math.floor(self.arena.shape[0]/2):
+                    logger.info("go east" +math.floor(self.arena.shape[0]/2))
                     if self.bearing == "E":
                         self.command = "F"
                     elif self.bearing == "N":
                         self.command = "R"
                     else:
                         self.command ="L"
-                elif self.y_pos > 2+(self.arena.shape[1]/2):
-                    logger.info("go south" +self.arena.shape[1]/2)
+                elif self.y_pos > 2+math.floor(self.arena.shape[1]/2):
+                    logger.info("go south" +math.floor(self.arena.shape[1]/2))
                     if self.bearing == "S":
                         self.command = "F"
                     elif self.bearing == "E":
