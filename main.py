@@ -86,7 +86,7 @@ class Player:
                 self.x_pos += compassmap[self.bearing][0]
                 self.y_pos += compassmap[self.bearing][1]
             else:
-                logger.warn("Danger level:"+self.danger)
+                logger.warn("Danger level:"+str(self.danger))
                 #not safe, turn to move toward centre of arena
                 if self.x_pos > 2+math.floor(self.arena.shape[0]/2):
                     logger.info("go west" +math.floor(self.arena.shape[0]/2))
