@@ -1,2 +1,5 @@
 .gcloudignore
 .python-version
+bin/*
+lib/*
+pyvenv.cfg
