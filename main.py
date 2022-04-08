@@ -77,7 +77,7 @@ class Player:
         if 1 in self.arena[self.x_pos:self.x_pos+(compassmap[self.bearing][0]*3)] [self.y_pos:self.y_pos+(compassmap[self.bearing][1]*3)] >= 0:
             #there is an enemy within range! fire!...if you're not encircled.
             self.danger -= 1
-        if self.danger > 0:
+        if self.danger > 1:
             #need to move! check if we can just move forward to be safe
             if self.arena[self.x_pos+compassmap[self.bearing][0]] [self.y_pos+compassmap[self.bearing][1]] >= 0:
                 #safe to move forward
