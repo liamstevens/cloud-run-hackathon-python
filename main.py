@@ -123,13 +123,19 @@ class Player:
                     else:
                         self.command = "L"
                 else:
-                    self.command = "T"
+                    if self.last_command != "T":
+                        self.command = "T"
+                    else:
+                        self.command = "F"
                 #yolo, shoot your shot
                     
         else:
-            self.command = "T"
+            if self.last_command != "T":
+                self.command = "T"
+            else:
+                self.command = "F"
             #yolo, shoot your shot
-            
+        self.last_command = self.command
         return self.command
     def get_command(self):
         return self.command
