@@ -2,8 +2,8 @@ from numpy import ndarray as matrix
 from numpy import concatenate
 compassmap = {
 "N":(0,1),
-"S"(0,-1),
 "E":(1,0),
+"S":(0,-1),
 "W":(-1,0)
 }
 
@@ -47,8 +47,38 @@ class Player:
             if self.arena[self.x_pos+compassmap[self.bearing][0], self.y_pos+compassmap[self.bearing][1]] >= 0:
                 #safe to move forward
                 self.command = "MOVE"
+                self.x_pos += compassmap[self.bearing][0]
+                self.y_pos += compassmap[self.bearing][1]
             else:
                 #not safe, turn to move toward centre of arena
+                if self.x_pos > 2+(self.arena.ndim[0]/2):
+                    #send turn message
+                    #self.bearing = "W"
+                    if self.bearing == "S":
+                        self.command = "R"
+                    else:
+                        self.command = "L"
+                elif self.x_pos < 2+(self.arena.ndim[0]/2):
+                    #self.bearing = "E"
+                    if self.bearing == "N":
+                        self.command = "R"
+                    else:
+                        self.command ="L"
+                elif self.y_pos > 2+(self.arena.ndim[1]/2):
+                    #self.bearing = "S"
+                    if self.bearing == "E":
+                        self.command = "R"
+                    else:
+                        self.command = "L"
+                else:
+                    #self.bearing = "N"
+                    if self.bearing == "W":
+                        self.command = "R"
+                    else:
+                        self.command = "L"
+                    
         else:
-            #yolo, shoot your shot
             self.command = "FIRE"
+            #yolo, shoot your shot
+            
+        return
