@@ -114,7 +114,7 @@ class Player:
                         self.command = "R"
                     else:
                         self.command = "L"
-                else:
+                elif self.y_pos < 2+math.floor(self.arena.shape[1]/2):
                     logger.info("go north" +str(self.x_pos)+", "+str(self.y_pos))
                     if self.bearing == "N":
                         self.command = "F"
@@ -122,6 +122,9 @@ class Player:
                         self.command = "R"
                     else:
                         self.command = "L"
+                else:
+                    self.command = "T"
+                    #yolo, shoot your shot
                     
         else:
             self.command = "T"
