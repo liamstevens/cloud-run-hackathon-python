@@ -149,7 +149,7 @@ def move():
     player.update_state(d["arena"])
     player.analyse_state()
     #logger.info(request.json)
-    #logger.info(player.get_command())
+    logger.info(player.get_command())
     return player.get_command()
 
 if __name__ == "__main__":
